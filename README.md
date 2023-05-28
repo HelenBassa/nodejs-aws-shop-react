@@ -7,7 +7,7 @@ In addition to the previous work a CloudFront distribution is created and config
 Link to S3-website - http://nodejs-aws-shop-react.s3-website-us-east-1.amazonaws.com/
 Link to CloudFront website - https://diftsfi6p6l5y.cloudfront.net/
 
-## Task 2.2 - Manual Deployment (*30 points*)
+## Task 2.2 - Automated Deployment (*30 points*)
 S3 bucket creation, website deployment, CloudFront Distribution and Invalidation added and configured by using AWS CDK. The app can be built and deployed by running npm script command.
 
 Link to CloudFront website - https://d202mox6ze7nec.cloudfront.net/
