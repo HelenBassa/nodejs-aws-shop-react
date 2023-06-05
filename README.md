@@ -1,3 +1,22 @@
+# Task 2 - Serve SPA in AWS S3 and Cloudfront Services
+
+## Task 2.1 - Manual Deployment (*70 points*)
+S3 bucket has been created and configured properly. The app has been uploaded to the bucket and is available though the Internet.
+In addition to the previous work a CloudFront distribution is created and configured properly and the site is served now with CloudFront and is available through the Internet over CloudFront URL, not S3-website link.
+
+Link to S3-website - http://nodejs-aws-shop-react.s3-website-us-east-1.amazonaws.com/
+Link to CloudFront website - https://diftsfi6p6l5y.cloudfront.net/
+
+## Task 2.2 - Automated Deployment (*30 points*)
+S3 bucket creation, website deployment, CloudFront Distribution and Invalidation added and configured by using AWS CDK. The app can be built and deployed by running npm script command.
+
+Link to CloudFront website - https://d202mox6ze7nec.cloudfront.net/
+### `build:deploy`
+
+Builds the project for production in `dist` folder and deploys by using AWS CDK. More informaition in `package.json` file.
+
+
+
 # React-shop-cloudfront
 
 This is frontend starter project for nodejs-aws mentoring program. It uses the following technologies:
