@@ -9,13 +9,13 @@ import { formatAsPrice } from "~/utils/utils";
 import AddProductToCart from "~/components/AddProductToCart/AddProductToCart";
 import { useAvailableProducts } from "~/queries/products";
 import { useEffect, useState } from "react";
-import { Product } from "~/models/Product";
+import { Product, AvailableProduct } from "~/models/Product";
 import axios from "axios";
 import API_PATHS from "~/constants/apiPaths";
 import get from "lodash/get";
 
 export default function Products() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<AvailableProduct[]>([]);
 
   useEffect(() => {
     (async function getProducts() {
@@ -42,7 +42,7 @@ export default function Products() {
 
   return (
     <Grid container spacing={4}>
-      {products.map((product: Product, index: number) => (
+      {products.map((product: AvailableProduct, index: number) => (
         <Grid item key={product.id} xs={12} sm={6} md={4}>
           <Card
             sx={{ height: "100%", display: "flex", flexDirection: "column" }}
@@ -57,6 +57,9 @@ export default function Products() {
                 {product.title}
               </Typography>
               <Typography>{formatAsPrice(product.price)}</Typography>
+              <Typography gutterBottom variant="body1" component="p">
+                Items: {product.count}
+              </Typography>
             </CardContent>
             <CardActions>
               <AddProductToCart product={product} />
