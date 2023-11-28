@@ -21,7 +21,8 @@ export default function Products() {
     (async function getProducts() {
       try {
         const response = await axios.get(`${API_PATHS.product}/products`, {});
-        const products = get(response, "data.products", []);
+        //const products = get(response, "data.products", []);
+        const products = get(response, "data", []);
         console.log(products);
         setProducts(products);
       } catch (e) {
