@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Link } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,15 +10,34 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { formatAsPrice } from "~/utils/utils";
 import {
-  useAvailableProducts,
+  //useAvailableProducts,
   useDeleteAvailableProduct,
   useInvalidateAvailableProducts,
 } from "~/queries/products";
+import { AvailableProduct } from "~/models/Product";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import API_PATHS from "~/constants/apiPaths";
+import get from "lodash/get";
 
 export default function ProductsTable() {
-  const { data = [] } = useAvailableProducts();
+  //const { data = [] } = useAvailableProducts();
+  const [products, setProducts] = useState<AvailableProduct[]>([]);
   const { mutate: deleteAvailableProduct } = useDeleteAvailableProduct();
   const invalidateAvailableProducts = useInvalidateAvailableProducts();
+
+  useEffect(() => {
+    (async function getProducts() {
+      try {
+        const response = await axios.get(`${API_PATHS.product}/products`, {});
+        const products = get(response, "data.products", []);
+        console.log(products);
+        setProducts(products);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
 
   return (
     <TableContainer component={Paper}>
@@ -32,7 +52,7 @@ export default function ProductsTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((product) => (
+          {products.map((product) => (
             <TableRow key={product.id}>
               <TableCell component="th" scope="row">
                 {product.title}
