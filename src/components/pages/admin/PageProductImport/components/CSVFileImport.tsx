@@ -1,6 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import React from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -12,7 +9,7 @@ type CSVFileImportProps = {
 };
 
 export default function CSVFileImport({ url, title }: CSVFileImportProps) {
-  const [file, setFile] = React.useState<File>();
+  const [file, setFile] = React.useState<File | null>(null);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -23,76 +20,38 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
   };
 
   const removeFile = () => {
-    setFile(undefined);
+    setFile(null);
   };
 
   const uploadFile = async () => {
-    //console.log("uploadFile to", url);
-    console.log("UploadFile to ->", url);
-
+    console.log("uploadFile to", url);
     const authorization_token = localStorage.getItem("authorization_token");
     const headers: AxiosRequestHeaders = {};
     if (authorization_token) {
       headers["Authorization"] = `Basic ${authorization_token}`;
     }
 
-    if (!file) {
-      console.error("File not exist!");
-      return;
-    }
+    const response = await axios({
+      method: "GET",
+      url,
+      headers: {
+        ...headers,
+      },
+      params: {
+        name: encodeURIComponent(file?.name as string),
+      },
+    });
 
-    // Get the presigned URL
-    // const response = await axios({
-    //   method: "GET",
-    //   url,
-    //   params: {
-    //     name: encodeURIComponent(file.name),
-    //   },
-    // });
-    // console.log("File to upload: ", file.name);
-    // console.log("Uploading to: ", response.data);
-    // const result = await fetch(response.data, {
-    //   method: "PUT",
-    //   body: file,
-    // });
-    // console.log("Result: ", result);
-    // setFile("");
+    console.log("File to upload: ", file?.name);
+    console.log("Uploading to: ", response.data.message);
 
-    try {
-      const response = await axios({
-        method: "GET",
-        url,
-        headers: {
-          ...headers,
-        },
-        params: {
-          name: encodeURIComponent(file.name),
-        },
-      });
-      console.log(response.data);
-
-      const presignedUrl = new URL(response.data);
-      if (!presignedUrl) {
-        console.error("Url not exist!");
-        return;
-      }
-
-      console.log("PresignedUrl: ", presignedUrl);
-      console.log("File to upload: ", file.name);
-      console.log("Uploading to: ", response.data);
-
-      const result = await fetch(response.data, {
-        method: "PUT",
-        body: file,
-      });
-
-      console.log("Result: ", result);
-      setFile(undefined);
-    } catch (error: any) {
-      console.error(error.response.data);
-    }
+    const result = await fetch(response.data.message, {
+      method: "PUT",
+      body: file,
+    });
+    console.log("Result: ", result);
+    setFile(null);
   };
-
   return (
     <Box>
       <Typography variant="h6" gutterBottom>

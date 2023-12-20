@@ -13,7 +13,6 @@ coverage
 dist
 dist-ssr
 *.local
-cdk.out
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +24,7 @@ cdk.out
 *.njsproj
 *.sln
 *.sw?
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out

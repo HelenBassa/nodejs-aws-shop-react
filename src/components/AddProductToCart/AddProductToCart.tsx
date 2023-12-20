@@ -16,14 +16,17 @@ export default function AddProductToCart({ product }: AddProductToCartProps) {
   const { data = [], isFetching } = useCart();
   const { mutate: upsertCart } = useUpsertCart();
   const invalidateCart = useInvalidateCart();
-  const cartItem = data?.find((i) => i?.product.id === product.id);
+  const cartItem = data?.find((i) => i?.product?.id === product.id);
   useEffect(() => {
     console.log({ data });
   }, [data]);
 
   const addProduct = () => {
     upsertCart(
-      { product, count: cartItem ? cartItem.count + 1 : 1 },
+      {
+        product,
+        count: cartItem ? cartItem.count + 1 : 1,
+      },
       { onSuccess: invalidateCart }
     );
   };

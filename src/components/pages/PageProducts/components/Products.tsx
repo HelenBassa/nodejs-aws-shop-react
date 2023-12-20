@@ -1,4 +1,3 @@
-/* eslint-disable */
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -8,34 +7,9 @@ import Typography from "@mui/material/Typography";
 import { formatAsPrice } from "~/utils/utils";
 import AddProductToCart from "~/components/AddProductToCart/AddProductToCart";
 import { useAvailableProducts } from "~/queries/products";
-import { useEffect, useState } from "react";
-import { Product, AvailableProduct } from "~/models/Product";
-import axios from "axios";
-import API_PATHS from "~/constants/apiPaths";
-import get from "lodash/get";
 
 export default function Products() {
-  const [products, setProducts] = useState<AvailableProduct[]>([]);
-
-  useEffect(() => {
-    (async function getProducts() {
-      try {
-        const response = await axios.get(`${API_PATHS.product}/products`, {});
-        const products = get(response, "data.products", []);
-        //const products = get(response, "data", []);
-        console.log(products);
-        setProducts(products);
-      } catch (e) {
-        console.log(e);
-      }
-    })();
-  }, []);
-
-  const { /*data = [],*/ isLoading } = useAvailableProducts();
-
-  // console.log(data);
-  // const products = data.products;
-  // console.log(products);
+  const { data = [], isLoading } = useAvailableProducts();
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
@@ -43,7 +17,8 @@ export default function Products() {
 
   return (
     <Grid container spacing={4}>
-      {products.map((product: AvailableProduct, index: number) => (
+      {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
+      {data.map(({ count, ...product }, index) => (
         <Grid item key={product.id} xs={12} sm={6} md={4}>
           <Card
             sx={{ height: "100%", display: "flex", flexDirection: "column" }}
@@ -58,9 +33,6 @@ export default function Products() {
                 {product.title}
               </Typography>
               <Typography>{formatAsPrice(product.price)}</Typography>
-              <Typography gutterBottom variant="body1" component="p">
-                Items: {product.count}
-              </Typography>
             </CardContent>
             <CardActions>
               <AddProductToCart product={product} />
