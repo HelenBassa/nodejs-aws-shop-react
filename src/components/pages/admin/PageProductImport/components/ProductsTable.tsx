@@ -10,7 +10,6 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { formatAsPrice } from "~/utils/utils";
 import {
-  // useAvailableProducts,
   useDeleteAvailableProduct,
   useInvalidateAvailableProducts,
 } from "~/queries/products";
@@ -22,6 +21,9 @@ import get from "lodash/get";
 
 export default function ProductsTable() {
   const [products, setProducts] = useState<AvailableProduct[]>([]);
+
+  const { mutate: deleteAvailableProduct } = useDeleteAvailableProduct();
+  const invalidateAvailableProducts = useInvalidateAvailableProducts();
 
   useEffect(() => {
     (async function getProducts() {
@@ -35,10 +37,6 @@ export default function ProductsTable() {
       }
     })();
   }, []);
-
-  // const { data = [] } = useAvailableProducts();
-  const { mutate: deleteAvailableProduct } = useDeleteAvailableProduct();
-  const invalidateAvailableProducts = useInvalidateAvailableProducts();
 
   return (
     <TableContainer component={Paper}>

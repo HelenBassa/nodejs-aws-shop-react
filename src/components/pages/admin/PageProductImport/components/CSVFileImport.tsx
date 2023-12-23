@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable prettier/prettier */
 import React from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
