@@ -22,7 +22,6 @@ export default function Products() {
       try {
         const response = await axios.get(`${API_PATHS.product}/products`, {});
         const products = get(response, "data.products", []);
-        //const products = get(response, "data", []);
         console.log(products);
         setProducts(products);
       } catch (e) {
@@ -32,10 +31,6 @@ export default function Products() {
   }, []);
 
   const { /*data = [],*/ isLoading } = useAvailableProducts();
-
-  // console.log(data);
-  // const products = data.products;
-  // console.log(products);
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;

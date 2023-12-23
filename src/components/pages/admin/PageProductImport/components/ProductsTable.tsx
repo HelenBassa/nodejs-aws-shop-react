@@ -10,7 +10,6 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { formatAsPrice } from "~/utils/utils";
 import {
-  //useAvailableProducts,
   useDeleteAvailableProduct,
   useInvalidateAvailableProducts,
 } from "~/queries/products";
@@ -21,8 +20,8 @@ import API_PATHS from "~/constants/apiPaths";
 import get from "lodash/get";
 
 export default function ProductsTable() {
-  //const { data = [] } = useAvailableProducts();
   const [products, setProducts] = useState<AvailableProduct[]>([]);
+
   const { mutate: deleteAvailableProduct } = useDeleteAvailableProduct();
   const invalidateAvailableProducts = useInvalidateAvailableProducts();
 
