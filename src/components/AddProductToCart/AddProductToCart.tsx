@@ -6,7 +6,6 @@ import Remove from "@mui/icons-material/Remove";
 import IconButton from "@mui/material/IconButton";
 import { useCart, useInvalidateCart, useUpsertCart } from "~/queries/cart";
 import { CartItem } from "~/models/CartItem";
-import { useEffect } from "react";
 
 type AddProductToCartProps = {
   product: Product;
@@ -17,9 +16,6 @@ export default function AddProductToCart({ product }: AddProductToCartProps) {
   const { mutate: upsertCart } = useUpsertCart();
   const invalidateCart = useInvalidateCart();
   const cartItem = data?.find((i) => i?.product?.id === product.id);
-  useEffect(() => {
-    console.log({ data });
-  }, [data]);
 
   const addProduct = () => {
     upsertCart(

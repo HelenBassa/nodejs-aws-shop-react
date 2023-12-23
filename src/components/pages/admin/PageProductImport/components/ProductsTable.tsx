@@ -13,9 +13,27 @@ import {
   useDeleteAvailableProduct,
   useInvalidateAvailableProducts,
 } from "~/queries/products";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { AvailableProduct } from "~/models/Product";
+import API_PATHS from "~/constants/apiPaths";
+import get from "lodash/get";
 
 export default function ProductsTable() {
-  const { data = [] } = useAvailableProducts();
+  const [products, setProducts] = useState<AvailableProduct[]>([]);
+
+  useEffect(() => {
+    (async function getProducts() {
+      try {
+        const response = await axios.get(`${API_PATHS.product}`, {});
+        const products = get(response, "data.products", []);
+        setProducts(products);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
+
   const { mutate: deleteAvailableProduct } = useDeleteAvailableProduct();
   const invalidateAvailableProducts = useInvalidateAvailableProducts();
 
@@ -32,7 +50,7 @@ export default function ProductsTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((product) => (
+          {products.map((product) => (
             <TableRow key={product.id}>
               <TableCell component="th" scope="row">
                 {product.title}

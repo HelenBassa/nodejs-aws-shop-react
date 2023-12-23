@@ -59,7 +59,6 @@ export default function PageCart() {
       setActiveStep((step) => step + 1);
       return;
     }
-    console.log({ data });
     const values = {
       items: data.map((i) => ({
         productId: i.product_id,
@@ -68,7 +67,6 @@ export default function PageCart() {
       address,
       cart_id: data[0].cart_id,
     };
-    console.log({ values, data });
     submitOrder(values as unknown as Omit<Order, "id" | "cart_id">, {
       onSuccess: () => {
         setActiveStep(activeStep + 1);

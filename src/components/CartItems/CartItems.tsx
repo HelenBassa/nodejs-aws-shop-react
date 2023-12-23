@@ -6,7 +6,11 @@ import { CartItem } from "~/models/CartItem";
 import { formatAsPrice } from "~/utils/utils";
 import AddProductToCart from "~/components/AddProductToCart/AddProductToCart";
 import { useAvailableProducts } from "~/queries/products";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { AvailableProduct } from "~/models/Product";
+import axios from "axios";
+import API_PATHS from "~/constants/apiPaths";
+import get from "lodash/get";
 
 type CartItemsProps = {
   items: CartItem[];
@@ -14,7 +18,21 @@ type CartItemsProps = {
 };
 
 export default function CartItems({ items, isEditable }: CartItemsProps) {
-  const { data = [], isLoading } = useAvailableProducts();
+  const [products, setProducts] = useState<AvailableProduct[]>([]);
+
+  useEffect(() => {
+    (async function getProducts() {
+      try {
+        const response = await axios.get(`${API_PATHS.product}`, {});
+        const products = get(response, "data.products", []);
+        setProducts(products);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
+
+  const { isLoading } = useAvailableProducts();
   const totalPrice: number = items.reduce((total, item) => {
     if (!item.price) return total;
     return total + item.price * item.count;
@@ -23,7 +41,7 @@ export default function CartItems({ items, isEditable }: CartItemsProps) {
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const itemWithData: CartItem[] = data
+  const itemWithData: CartItem[] = products
     .filter((el) => orderIdArr.includes(el.id))
     .map((el) => ({
       product: el,

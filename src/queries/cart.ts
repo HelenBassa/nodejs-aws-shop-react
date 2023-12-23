@@ -17,7 +17,6 @@ interface CartResponse {
 }
 export function useCart() {
   return useQuery<CartItem[], AxiosError>("cart", async () => {
-    console.log("request");
     const res = await axios.get<CartResponse>(
       `${API_PATHS.cart}/profile/cart`,
       {
