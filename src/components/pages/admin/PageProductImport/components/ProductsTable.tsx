@@ -21,6 +21,8 @@ import get from "lodash/get";
 
 export default function ProductsTable() {
   const [products, setProducts] = useState<AvailableProduct[]>([]);
+  //const { mutate: deleteAvailableProduct } = useDeleteAvailableProduct();
+  //const invalidateAvailableProducts = useInvalidateAvailableProducts();
 
   useEffect(() => {
     (async function getProducts() {
