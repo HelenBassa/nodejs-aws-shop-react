@@ -33,7 +33,7 @@ export default function Header() {
             underline="none"
             to="/"
           >
-            Helen Bassa Bicycle Store
+            Helen Bassa Store
           </Link>
         </Typography>
 
